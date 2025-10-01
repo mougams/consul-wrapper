@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
+	"os"
 	"runtime"
 
 	"github.com/hashicorp/consul/api"
@@ -25,7 +25,7 @@ var jsonCmd = &cobra.Command{
 	Long:  "Create a consul service based on config file",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		file, _ := ioutil.ReadFile(configFile)
+		file, _ := os.ReadFile(configFile)
 		config = &api.AgentServiceRegistration{}
 		err := json.Unmarshal([]byte(file), &config)
 		if err != nil {

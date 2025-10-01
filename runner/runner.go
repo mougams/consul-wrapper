@@ -13,8 +13,9 @@ import (
 const selfCheckName string = "SelfCheck"
 
 func processWatcher(pid int, config Config, client *api.Client) {
-	channel := time.Tick(config.SelfCheckFrequency)
-	for range channel {
+	ticker := time.NewTicker(config.SelfCheckFrequency)
+	defer ticker.Stop()
+	for range ticker.C {
 		_, err := os.FindProcess(pid)
 		if err != nil {
 			log.Println("[ConsulWrapper] Process is not running")

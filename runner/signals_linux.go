@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"log"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -12,6 +13,8 @@ func signalWatch(cmd *exec.Cmd) {
 	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		sig := <-signals
-		syscall.Kill(cmd.Process.Pid, sig.(syscall.Signal))
+		if err := syscall.Kill(cmd.Process.Pid, sig.(syscall.Signal)); err != nil {
+			log.Fatalf("syscall Kill call failed: %v", err)
+		}
 	}()
 }

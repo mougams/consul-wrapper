@@ -1,9 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/tionebsalocin/consul-wrapper/cmd"
 )
 
 func main() {
-	cmd.RootCmd.Execute()
+	if err := cmd.RootCmd.Execute(); err != nil {
+		log.Fatalf("command execution failed: %v", err)
+	}
 }

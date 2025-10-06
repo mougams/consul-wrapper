@@ -1,6 +1,13 @@
 name: goreleaser
 
 on:
+  workflow_dispatch:
+    inputs:
+      # Optional: define inputs here
+      release_tag:
+        description: 'Release version'
+        required: true
+        default: 'latest'
   push:
     tags:
       - '*'
